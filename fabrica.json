@@ -1,0 +1,1 @@
+{"lang": "python", "package": "trysac-c4-from-yaml", "commands": {"install": [["uv", "sync"]], "check": [["uv", "run", "python", "scripts/check.py"]]}}
