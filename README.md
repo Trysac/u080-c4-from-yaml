@@ -8,8 +8,9 @@ Generate C4 context, container and component diagrams in Mermaid syntax from one
 
 ## Problem
 
-Describe in two or three sentences the concrete problem this utility solves, who hits it, and what
-they do today without it. Replace this paragraph when the first real feature lands.
+Architecture diagrams drawn by hand go stale because each view is edited separately. Structurizr
+solves this with its own DSL and a Java toolchain, which is heavy for small teams. A YAML model
+rendered to Mermaid C4 keeps one source of truth that GitHub and documentation sites render natively.
 
 ## Install
 
@@ -19,22 +20,47 @@ pip install trysac-c4-from-yaml
 uv add trysac-c4-from-yaml
 ```
 
-Requires Python 3.10 or newer. No runtime dependencies.
+Requires Python 3.10 or newer. Depends on pyyaml>=6,<7.
 
 ## Usage
 
 ```python
-import c4_from_yaml
+from c4_from_yaml import load_model, render, validate_model
 
-# normalize() trims surrounding whitespace and lower-cases the text.
-print(c4_from_yaml.normalize("  Hello World "))  # -> "hello world"
-
-# Blank input is rejected explicitly instead of returning an empty string.
-try:
-    c4_from_yaml.normalize("   ")
-except ValueError as exc:
-    print(f"rejected: {exc}")
+text = """\
+people:
+  - {id: u, name: User, description: Buys}
+systems:
+  - {id: shop, name: Shop, description: Sells}
+relations:
+  - {source: u, target: shop, label: Uses}
+"""
+model = load_model(text)
+assert validate_model(model) == []
+print(render(model, "context"))
+# C4Context
+#     Person(u, "User", "Buys")
+#     System(shop, "Shop", "Sells")
+#     Rel(u, shop, "Uses")
 ```
+
+### CLI
+
+```sh
+c4-from-yaml FILE --view context|container|component [--focus ID] [--out FILE] [--check]
+```
+
+The `container` view needs `--focus` with a system id; `component` needs a container id.
+
+Exit codes: `0` success, `1` validation issues found, `2` usage, IO or YAML error
+(missing file, bad YAML, `--view container` without `--focus`).
+
+### Errors
+
+`load_model` and `render` raise `C4Error` with a `code` and `path`:
+`too_large`, `yaml_syntax`, `alias_forbidden` (anchors and aliases are rejected),
+`structure` and `view`. `validate_model` returns `Issue` objects with code
+`unknown_ref`, `duplicate_id`, `wrong_parent` or `external_with_children`.
 
 ## Documentation
 
