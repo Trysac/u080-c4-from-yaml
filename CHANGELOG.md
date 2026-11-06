@@ -9,4 +9,5 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- Add `c4_from_yaml`: safe YAML model loading, validation and Mermaid C4 context, container and component rendering, with a `python -m c4_from_yaml` command line.
 - Initial project structure from the factory utility template.
