@@ -1,7 +1,6 @@
 # c4-from-yaml
 
-[![PyPI version](https://img.shields.io/pypi/v/trysac-c4-from-yaml)](https://pypi.org/project/trysac-c4-from-yaml/)
-[![License: MIT](https://img.shields.io/pypi/l/trysac-c4-from-yaml)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![CI](https://github.com/Trysac/u080-c4-from-yaml/actions/workflows/ci.yml/badge.svg)](https://github.com/Trysac/u080-c4-from-yaml/actions/workflows/ci.yml)
 
 Generate C4 context, container and component diagrams in Mermaid syntax from one validated YAML architecture model with safe loading
@@ -14,10 +13,12 @@ rendered to Mermaid C4 keeps one source of truth that GitHub and documentation s
 
 ## Install
 
+Not published to PyPI yet. Install it from GitHub:
+
 ```sh
-pip install trysac-c4-from-yaml
+pip install "git+https://github.com/Trysac/u080-c4-from-yaml"
 # or
-uv add trysac-c4-from-yaml
+uv add "git+https://github.com/Trysac/u080-c4-from-yaml"
 ```
 
 Requires Python 3.10 or newer. Depends on pyyaml>=6,<7.
